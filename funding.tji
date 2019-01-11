@@ -1,0 +1,30 @@
+task funding_security "Securing funding" {
+
+  task repackage_pitch "Develop Slick Pitch" {
+
+    task conceptual_redesign "Conceptual Redesign" {
+      allocate Mark
+      effort 2w
+    }
+
+    task design_prototype "Pitch Prototype" {
+      allocate Mark
+      flags communication
+      effort 2w
+    }
+
+    task pitch_data "Collect and refine pitch data" {
+      effort 4w
+      depends !design_prototype
+      allocate ${data_team}
+      flags data
+    }
+
+    task impact_report "Develop impact report" {
+      effort 4w
+      depends !pitch_data
+      allocate ${data_team}
+      flags data
+    }
+  }
+}

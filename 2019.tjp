@@ -92,23 +92,12 @@ resource s1 "System 1" {
   rate 600.0
 }
 
-task project "Project" {
-  task wp1 "Workpackage 1" {
-    task t1 "Task 1"
-    task t2 "Task 2"
+task project "Overall" {
+  task funding_milestone "Foundation / Funding" {
+    depends !!funding_security 
   }
-  task wp2 "Work package 2" {
-    depends !wp1
-    task t1 "Task 1"
-    task t2 "Task 2"
-  }
-  task deliveries "Deliveries" {
-    task "Item 1" {
-      depends !!wp1
-    }
-    task "Item 2" {
-      depends !!wp2
-    }
+  task tsa_milestone "Legacy TSA" {
+    depends !!sasol
   }
 }
 
@@ -130,38 +119,9 @@ task strategic_planning "Planning for 2019" {
   allocate ${coordinators_team}
 }
 
-include "sasol_tsa.tji"
 
-task funding_security "Securing funding" {
-
-  task repackage_pitch "Develop Slick Pitch" {
-
-    task conceptual_redesign "Conceptual Redesign" {
-      allocate Mark
-      effort 2w
-    }
-
-    task design_prototype "Pitch Prototype" {
-      allocate Mark
-      flags communication
-      effort 2w
-    }
-
-    task pitch_data "Collect and refine pitch data" {
-      effort 4w
-      depends !design_prototype
-      allocate ${data_team}
-      flags data
-    }
-
-    task impact_report "Develop impact report" {
-      effort 4w
-      depends !pitch_data
-      allocate ${data_team}
-      flags data
-    }
-  }
-}
+include "funding.tji" #funding_security
+include "sasol_tsa.tji"  #sasol
 
 task legacy_roa "Complete RoA" {
   task integrate_whizz "Complete integratiuon Andres's code" {
