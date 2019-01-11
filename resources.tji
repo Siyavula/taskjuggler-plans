@@ -1,0 +1,114 @@
+# The daily default rate of all resources. This can be overridden for each
+# resource. We specify this so we can do a good calculation of
+# the costs of the project.
+rate 400.0
+
+resource Mark "Mark Horner"
+resource ex_team "Executive Team" {
+    managers Mark
+    resource Neels "Neels van der Westhuizen"
+}
+
+# Operations Team
+
+resource Anthea "Anthea Baroutsos"
+
+resource ops_team "Operations Team" {
+    managers Anthea
+    resource Tanya "Tanya Carstens"
+}
+
+# Dev Team
+resource Rich "Richard Cochrane"
+
+resource dev_team "Dev Team" {
+    managers Rich
+    resource Hein "Hein Bekker"
+    resource Heather "Heather Williams"
+    resource John "John Prince"
+    resource Saymore "Saymore Chifamba"
+}
+
+# EdTech Team
+resource Kosma "Kosma von Maltitz"
+
+resource edtech_team "EdTech Team" {
+    managers Kosma
+    resource Ros "Roslind Clayton"
+    resource Kate "Katherine Davies"
+    resource Louise "Louise Steward"
+    resource Adam "Adam Reynolds"
+}
+
+# RiseUp Team
+
+resource Gina "Gina Sulprizio"
+
+resource riseup_team "RiseUp Team" {
+    managers Gina
+    resource Hannelie "Hannelie Coetzee"
+    resource Mbali "Mbali Mazibuko"
+    resource Mathie "Mathlodi Goeiemann"
+}
+
+# Schools
+
+
+resource schools_team "Schools Team"  {
+    managers Anthea
+    resource Nats "Natalia Kavalenia"
+    resource Debs "Deborah Torrington"
+    resource Nomfundo "Nomfundo"
+}
+
+# New Business
+
+resource newbus_team "New Business Team" {
+    managers Neels
+    resource Will "William Wannenburg"
+}
+
+# Ad-hoc teams as Macros
+
+macro data_team [
+   Hein, Adam, Ros, Mark
+   limits {
+      weeklymax 20h { resources Hein }
+      weeklymax 8h  { resources Adam }
+      weeklymax 32h { resources Ros }
+      weeklymax 8h  { resources Mark }
+   }
+]
+
+macro coordinators_team [
+   Mark, Neels, Kosma, Rich, Debs, Nats, Will, Anthea, Gina
+]
+
+
+
+# External consultants / contractors
+
+resource Duncan "Duncan Bennet" {
+  rate 800
+  flags external
+  workinghours   mon 8:00 - 14:00
+  workinghours   tue 8:00 -14:00
+  workinghours   wed 8:00 - 14:00
+  workinghours   thu 8:00 - 14:00
+  workinghours   fri 8:00 - 14:00
+  limits { 
+    dailymax 6h 
+    monthlymax 120h
+    }
+  
+}
+
+resource Marianna "Marianna Hudson" {
+  rate 800
+  flags external
+  workinghours    mon 8:00 - 14:00
+  workinghours   tue 8:00 - 14:00
+  workinghours   wed 8:00 - 14:00
+  workinghours   thu 8:00 - 14:00
+  workinghours   fri 8:00 - 14:00
+}

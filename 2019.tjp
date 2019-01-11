@@ -3,7 +3,7 @@
  * TaskJuggler project management tool. You can use this as a basis to
  * start your own project file.
  */
-project your_project_id "Your Project Title"  2019-01-01-0:00-+0200 2020-01-01-00:00-+0200 {
+project your_project_id "Your Project Title"  2019-01-01-0:00-+0200 +12m {
   # Set the default time zone for the project. If not specified, UTC
   # is used.
   timezone "Africa/Johannesburg"
@@ -55,7 +55,7 @@ project your_project_id "Your Project Title"  2019-01-01-0:00-+0200 2020-01-01-0
 
 # You can attach flags to accounts, resources and tasks. These can be
 # used to filter out subsets of them during reporting.
-flags important, hidden, data, external
+flags important, hidden, data, external, communication
 
 # If you want to do budget planning for your project, you need to
 # define some accounts.
@@ -84,121 +84,7 @@ vacation "Day of Reconciliation" 2019-12-16
 vacation "Christmas Day" 2019-12-25 
 vacation "Day of Goodwill" 2019-12-26 
 
-# The daily default rate of all resources. This can be overridden for each
-# resource. We specify this so we can do a good calculation of
-# the costs of the project.
-rate 400.0
-
-resource Mark "Mark Horner"
-resource ex_team "Executive Team" {
-    managers Mark
-    resource Neels "Neels van der Westhuizen"
-}
-
-# Operations Team
-
-resource Anthea "Anthea Baroutsos"
-
-resource ops_team "Operations Team" {
-    managers Anthea
-    resource Tanya "Tanya Carstens"
-}
-
-# Dev Team
-resource Rich "Richard Cochrane"
-
-resource dev_team "Dev Team" {
-    managers Rich
-    resource Hein "Hein Bekker"
-    resource Heather "Heather Williams"
-    resource John "John Prince"
-    resource Saymore "Saymore Chifamba"
-}
-
-# EdTech Team
-resource Kosma "Kosma von Maltitz"
-
-resource edtech_team "EdTech Team" {
-    managers Kosma
-    resource Ros "Roslind Clayton"
-    resource Kate "Katherine Davies"
-    resource Louise "Louise Steward"
-    resource Adam "Adam Reynolds"
-}
-
-# RiseUp Team
-
-resource Gina "Gina Sulprizio"
-
-resource riseup_team "RiseUp Team" {
-    managers Gina
-    resource Hannelie "Hannelie Coetzee"
-    resource Mbali "Mbali Mazibuko"
-    resource Mathie "Mathlodi Goeiemann"
-}
-
-# Schools
-
-
-resource schools_team "Schools Team"  {
-    managers Anthea
-    resource Nats "Natalia Kavalenia"
-    resource Debs "Deborah Torrington"
-    resource Nomfundo "Nomfundo"
-}
-
-# New Business
-
-resource newbus_team "New Business Team" {
-    managers Neels
-    resource Will "William Wannenburg"
-}
-
-# Ad-hoc teams as Macros
-
-macro data_team [
-   Hein, Adam, Ros, Mark
-   limits {
-      weeklymax 20h { resources Hein }
-      weeklymax 8h  { resources Adam }
-      weeklymax 32h { resources Ros }
-      weeklymax 8h  { resources Mark }
-   }
-]
-
-macro coordinators_team [
-   Mark, Neels, Kosma, Rich, Debs, Nats, Will, Anthea, Gina
-]
-
-
-
-# External consultants / contractors
-
-resource Duncan "Duncan Bennet" {
-  rate 800
-  flags external
-  workinghours   mon 8:00 - 14:00
-  workinghours   tue 8:00 -14:00
-  workinghours   wed 8:00 - 14:00
-  workinghours   thu 8:00 - 14:00
-  workinghours   fri 8:00 - 14:00
-  limits { 
-    dailymax 6h 
-    monthlymax 120h
-    }
-  
-}
-
-resource Marianna "Marianna Hudson" {
-  rate 800
-  flags external
-  workinghours    mon 8:00 - 14:00
-  workinghours   tue 8:00 - 14:00
-  workinghours   wed 8:00 - 14:00
-  workinghours   thu 8:00 - 14:00
-  workinghours   fri 8:00 - 14:00
-}
-
+include "resources.tji"
 
 # This is a resource that does not do any work.
 resource s1 "System 1" {
@@ -233,84 +119,41 @@ task deliveries "Milestones" {
   }
   task planning "Technology Preview" {
     milestone
-    depends !planning
+    depends !!strategic_planning
   }
 }
 
-task planning "Planning" {
+task strategic_planning "Planning for 2019" {
   priority 1000
-  slackrate 0
   start 2019-01-01
   duration 2w
   allocate ${coordinators_team}
 }
 
-task sasol "SASOL Teacher Assessment" {
+include "sasol_tsa.tji"
 
-  # We need to improve the reporting and we need to market to teachers
-  
-  task tsa_reporting "TSA Reporting" {
-    task tsa_design_report "Design Provincial Report" {
-      allocate Neels
-      effort 2d
-      flags data
-    }
-    task tsa_prototype_report "Prototype Report" {
-      depends !tsa_design_report
-      effort 2w
-      allocate ${data_team} 
-      flags data
-    }
-    task tsa_implement_report "Implement Report" {
-      depends !tsa_prototype_report
-      effort 2w
-      allocate dev_team
-      flags data
-    }
-  }
+task funding_security "Securing funding" {
 
-  task tsa_marketing "TSA Marketing" {
-    task tsa_provincial_sms "SMS Campaigns" {
-      effort 2d
-      allocate Hannelie
-      flags communication
-    }
-    task tsa_flyers "TSA Flyer" {
-      effort 1w
-      allocate Neels
-      allocate Hannelie
-      flags communication
-    }
-  }
+  task repackage_pitch "Develop Slick Pitch" {
 
-  task tsa_follow_up "TSA Teacher -> Learner" {
-    depends !tsa_marketing
-    task tsa_teacher_learner "Teacher / Learner Practice Campaign" {
-      effort 2d
-      allocate Debs 
-      flags communication
-    }
-  }
-
-} 
-
-task funding_security {
-  task repackage_pitch "Develop Slick Pitch {
     task conceptual_redesign "Conceptual Redesign" {
       allocate Mark
       effort 2w
     }
+
     task design_prototype "Pitch Prototype" {
       allocate Mark
       flags communication
       effort 2w
     }
+
     task pitch_data "Collect and refine pitch data" {
       effort 4w
       depends !design_prototype
       allocate ${data_team}
       flags data
     }
+
     task impact_report "Develop impact report" {
       effort 4w
       depends !pitch_data
@@ -320,7 +163,18 @@ task funding_security {
   }
 }
 
+task legacy_roa "Complete RoA" {
+  task integrate_whizz "Complete integratiuon Andres's code" {
+    effort 4w
+    allocate Duncan
+  }
+  task complete_roa_billing "Complete the billing pages" {
+    depends !integrate_whizz
+    allocate Hein 
+    effort 2w
+  }
 
+}
 
 
 # Now the project has been specified completely. Stopping here would
@@ -440,6 +294,7 @@ taskreport overview "" {
     Some blurb about the current situation.
   ->8-
 }
+
 
 # Macro to set the background color of a cell according to the alert
 # level of the task.

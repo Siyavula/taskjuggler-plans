@@ -1,0 +1,48 @@
+task sasol "SASOL Teacher Assessment" {
+
+  # We need to improve the reporting and we need to market to teachers
+  
+  task tsa_reporting "TSA Reporting" {
+    task tsa_design_report "Design Provincial Report" {
+      allocate Neels 
+      effort 2d
+      flags data
+    }
+    task tsa_prototype_report "Prototype Report" {
+      depends !tsa_design_report
+      effort 2w
+      allocate ${data_team} 
+      flags data
+    }
+    task tsa_implement_report "Implement Report" {
+      depends !tsa_prototype_report
+      effort 2w
+      allocate dev_team
+      flags data
+    }
+  }
+
+  task tsa_marketing "TSA Marketing" {
+    task tsa_provincial_sms "SMS Campaigns" {
+      effort 2d
+      allocate Hannelie
+      flags communication
+    }
+    task tsa_flyers "TSA Flyer" {
+      effort 1w
+      allocate Neels
+      allocate Hannelie
+      flags communication
+    }
+  }
+
+  task tsa_follow_up "TSA Teacher -> Learner" {
+    depends !tsa_marketing
+    task tsa_teacher_learner "Teacher / Learner Practice Campaign" {
+      effort 2d
+      allocate Debs 
+      flags communication
+    }
+  }
+
+} 
