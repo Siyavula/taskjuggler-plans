@@ -27,8 +27,7 @@ task google "Legacy Google" {
             effort 3d
         }
         task ng_fb_campaign "FB in NG" {
-            allocate Anthea {maxdaily 1h}
-            effort 1w
+            duration 2m
         }
     }
 
