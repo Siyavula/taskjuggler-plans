@@ -117,6 +117,8 @@ task strategic_planning "Planning for 2019" {
 
 # Legacy projects
 include "sasol_tsa.tji"  #sasol
+include "google.tji" #google
+
 
 # New work 
 include "funding.tji" #funding_security

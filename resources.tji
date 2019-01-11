@@ -88,6 +88,10 @@ macro coordinators_team [
 
 # External consultants / contractors
 
+resouce EBW "Electric Book Works" {
+    flags external
+}
+
 resource Duncan "Duncan Bennet" {
   rate 800
   flags external

@@ -1,0 +1,35 @@
+task google "Legacy Google" {
+    task google_books "Google Books" {
+        task template_dump "Get templates" {
+            allocate Mark
+            effort 5d
+        }
+        task ebw "EBW Work" {
+            depends !template_dump
+
+            task ebw_pilot "EBW Recruit and Pilot" {
+                effort 3w
+                allocate EBW
+            }
+            task ebw_author "EBW Author" {
+                effort 10w
+                allocate EBW
+            }
+        }
+    }
+    task google_subs "Google Subscriptions" {
+        task ng_fb_creative "Creative for FB in NG" {
+            allocate John
+            effort 1w
+        }
+        task ng_fb_dev "Dev integration for FB in NG" {
+            allocate Hein
+            effort 3d
+        }
+        task ng_fb_campaign "FB in NG" {
+            allocate Anthea {maxdaily 1h}
+            effort 1w
+        }
+    }
+
+}
