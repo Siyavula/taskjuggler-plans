@@ -93,12 +93,8 @@ resource s1 "System 1" {
 }
 
 task project "Overall" {
-  task funding_milestone "Foundation / Funding" {
-    depends !!funding_security 
-  }
-  task tsa_milestone "Legacy TSA" {
-    depends !!sasol
-  }
+  depends !funding_security
+  depends !sasol
 }
 
 task deliveries "Milestones" {
@@ -119,9 +115,11 @@ task strategic_planning "Planning for 2019" {
   allocate ${coordinators_team}
 }
 
-
-include "funding.tji" #funding_security
+# Legacy projects
 include "sasol_tsa.tji"  #sasol
+
+# New work 
+include "funding.tji" #funding_security
 
 task legacy_roa "Complete RoA" {
   task integrate_whizz "Complete integratiuon Andres's code" {
@@ -190,21 +188,17 @@ textreport frame "" {
   }
 
   textreport wps "Work packages" {
-    textreport wp1 "Work package 1" {
+    textreport sasol "SASOL" {
       formats html
-      center '<[report id="wp1"]>'
+      center '<[report id="sasol"]>'
     }
 
-    textreport wp2 "Work package 2" {
+    textreport funding_security "Funding Security" {
       formats html
-      center '<[report id="wp2"]>'
+      center '<[report id="funding_security"]>'
     }
   }
 
-  textreport "Deliveries" {
-    formats html
-    center '<[report id="deliveries"]>'
-  }
 
   textreport "ContactList" {
     formats html
@@ -226,8 +220,8 @@ taskreport overview "" {
     The project is structured into 2 work packages.
 
     # Specification
-    # <-reportlink id='frame.wps.wp1'->
-    # <-reportlink id='frame.wps.wp2'->
+    # <-reportlink id='frame.wps.sasol'->
+    # <-reportlink id='frame.wps.funding_security'->
     # Testing
 
     === Original Project Plan ===
@@ -302,34 +296,27 @@ taskreport status "" {
 }
 
 # A list of tasks showing the resources assigned to each task.
-taskreport wp1 "" {
-  headline "Work package 1 - Resource Allocation Report"
+taskreport funding_security "" {
+  headline "Funding Milestone - Resource Allocation Report"
   columns bsi { title 'WBS' }, name, start, end, effort { title "Work" },
           duration, chart { ${TaskTip} scale day width 500 }
   timeformat "%Y-%m-%d"
   hideresource ~(isleaf() & isleaf_())
   sortresources name.up
-  taskroot project.wp1
+  taskroot funding_security
 }
 # A list of tasks showing the resources assigned to each task.
-taskreport wp2 "" {
-  headline "Work package 2 - Resource Allocation Report"
+taskreport sasol "" {
+  headline "TSA Milestone - Resource Allocation Report"
   columns bsi { title 'WBS' }, name, start, end, effort { title "Work" },
           duration, chart { ${TaskTip} scale day width 500 }
   timeformat "%Y-%m-%d"
   hideresource ~(isleaf() & isleaf_())
   sortresources name.up
-  taskroot project.wp2
+  taskroot sasol
 }
 
-# A list of all tasks with the percentage completed for each task
-taskreport deliveries "" {
-  headline "Project Deliverables"
-  columns bsi { title 'WBS' }, name, start, end, note { width 150 }, complete,
-          chart { ${TaskTip} }
-  taskroot project.deliveries
-  hideresource 1
-}
+
 # A list of all employees with their contact details.
 resourcereport contactList "" {
   headline "Contact list and duty plan"
