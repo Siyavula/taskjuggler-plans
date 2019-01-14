@@ -1,0 +1,17 @@
+task tempate_project "Template Project" {
+
+    task scope_project "Scoping of Project" {
+
+        task general_input "Brainstorm" {
+            effort 4h
+            allocate ${ coordinators_team }
+        }
+        
+        task specialist_input "Confer with consultants" {
+            depends !general_input
+            effort 2d
+        }
+
+    }
+
+}
