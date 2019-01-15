@@ -82,8 +82,11 @@ task project "Overall" {
   depends !sasol
   depends !legacy_roa
   depends !learner_engagement
+  depends !pub_teacher_engagement
+  depends !pvt_teacher_engagement
 }
 
+/*
 task deliveries "Milestones" {
   task start "2019 start" {
     milestone
@@ -94,6 +97,7 @@ task deliveries "Milestones" {
     depends !!strategic_planning
   }
 }
+*/
 
 task strategic_planning "Planning for 2019" {
   priority 1000
@@ -113,8 +117,7 @@ include "roa.tji" #legacy_roa
 # New work 
 include "funding.tji" #funding_security - managed by Mark
 include "learner_engagement.tji" #learner_engagement
-
-
+include "teacher_engagement.tji" #pub_teacher_engagement pvt_teacher_engagement
 
 # Now the project has been specified completely. Stopping here would
 # result in a valid TaskJuggler file that could be processed and
@@ -124,6 +127,16 @@ include "learner_engagement.tji" #learner_engagement
 navigator navbar {
   hidereport 0
 }
+
+
+macro textreport [
+   textreport ${1} ${2} {
+      formats html
+      center '<[report id="${1}"]>'
+    }
+ ]
+
+
 
 macro TaskTip [
   tooltip istask() -8<-
@@ -167,19 +180,18 @@ textreport frame "" {
       <[report id="status.future"]>
     ->8-
   }
-
+ 
   textreport wps "Work packages" {
-    textreport sasol "SASOL" {
-      formats html
-      center '<[report id="sasol"]>'
-    }
 
-    textreport funding_security "Funding Security" {
-      formats html
-      center '<[report id="funding_security"]>'
-    }
+    ${textreport "google" "\"Google Wrap Up\""}
+    ${textreport "legacy_roa" "\"Rest of Africa\""}
+    ${textreport "sasol" "\"SASOL\""}
+    ${textreport "funding_security" "\"Funding Security\""}
+    ${textreport "learner_engagement" "\"Learner Engagement\""}
+    ${textreport "pub_teacher_engagement" "\"Public Teacher Engagement\""}
+    ${textreport "pvt_teacher_engagement" "\"Private Teacher Engagement\""}
+
   }
-
 
   textreport "ContactList" {
     formats html
@@ -200,10 +212,13 @@ taskreport overview "" {
 
     The project is structured into 2 work packages.
 
-    # Specification
+    # <-reportlink id='frame.wps.google'->
+    # <-reportlink id='frame.wps.legacy_roa'->
     # <-reportlink id='frame.wps.sasol'->
     # <-reportlink id='frame.wps.funding_security'->
-    # Testing
+    # <-reportlink id='frame.wps.learner_engagement'->
+    # <-reportlink id='frame.wps.pub_teacher_engagement'->
+    # <-reportlink id='frame.wps.pvt_teacher_engagement'->
 
     === Original Project Plan ===
   ->8-
@@ -276,6 +291,30 @@ taskreport status "" {
   }
 }
 
+
+macro marktaskreport [
+  # A list of tasks showing the resources assigned to each task.
+  taskreport ${1} "" {
+    headline ${2}
+    columns bsi { title 'WBS' }, name, start, end, effort { title "Work" },
+            duration, chart { ${TaskTip} scale day width 500 }
+    timeformat "%Y-%m-%d"
+    hideresource ~(isleaf() & isleaf_())
+    sortresources name.up
+    taskroot ${1}
+  }  
+]
+
+${marktaskreport "google" "\"Google Wrap Up\""}
+${marktaskreport "legacy_roa" "\"Rest of Africa\""}
+${marktaskreport "sasol" "\"SASOL\""}
+${marktaskreport "funding_security" "\"Funding Security\""}
+${marktaskreport "learner_engagement" "\"Learner Engagement\""}
+${marktaskreport "pub_teacher_engagement" "\"Public Teacher Engagement\""}
+${marktaskreport "pvt_teacher_engagement" "\"Private Teacher Engagement\""}
+
+
+/*
 # A list of tasks showing the resources assigned to each task.
 taskreport funding_security "" {
   headline "Funding Milestone - Resource Allocation Report"
@@ -286,16 +325,10 @@ taskreport funding_security "" {
   sortresources name.up
   taskroot funding_security
 }
-# A list of tasks showing the resources assigned to each task.
-taskreport sasol "" {
-  headline "TSA Milestone - Resource Allocation Report"
-  columns bsi { title 'WBS' }, name, start, end, effort { title "Work" },
-          duration, chart { ${TaskTip} scale day width 500 }
-  timeformat "%Y-%m-%d"
-  hideresource ~(isleaf() & isleaf_())
-  sortresources name.up
-  taskroot sasol
-}
+*/
+
+
+
 
 
 # A list of all employees with their contact details.

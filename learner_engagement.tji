@@ -5,12 +5,12 @@ task learner_engagement "LE Strand" {
 
     task learner_value_prop "Develop Learner VP" {
         task lvp_scope "Scope LVP" {
-            allocate neels, will
+            allocate Neels, Will
             effort 3d
         }
         task lvp_partner "Find LVP partner" {
             depends !lvp_scope
-            allocate will
+            allocate Will
             duration 2w
         }
         task lvp_work "LVP partner work" {
@@ -24,12 +24,12 @@ task learner_engagement "LE Strand" {
 
     task learner_msg "Test Push Messaging" {
         task lmsg_scope "Scope LMSG" {
-            allocate gina
+            allocate Gina
             effort 3d
         }
         task lmsg_test "Execute tests over 3 weeks" {
             depends !lmsg_scope
-            allocate gina, hannelie
+            allocate Gina, Hannelie
             duration 3w
         }
         task lmsg_spec "Spec Design" {
@@ -37,7 +37,31 @@ task learner_engagement "LE Strand" {
             duration 2w
         }
         task lmsg_dev "Design implementation" {
-            depends !lmsg_test
+            depends !lmsg_spec
+            duration 4w
+        }
+
+    }
+
+    # Elements of gamification
+
+    task learner_game "Elements of Gamification" {
+        task leg_scope "Scope LEG" {
+            allocate Mark
+            effort 3d
+        }
+        task leg_test "Execute tests over 3 weeks" {
+            depends !leg_scope
+            allocate Mark, John, Hein, Ros
+            duration 3w
+        }
+
+        task leg_spec "Spec Design" {
+            depends !leg_test
+            duration 2w
+        }
+        task lmsg_dev "Design implementation" {
+            depends !leg_spec
             duration 4w
         }
 
