@@ -116,3 +116,7 @@ resource Marianna "Marianna Hudson" {
   workinghours   thu 8:00 - 14:00
   workinghours   fri 8:00 - 14:00
 }
+
+resource lvp_partner "LVP Parter" {
+    flags external
+}

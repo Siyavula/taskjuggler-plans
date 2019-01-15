@@ -80,6 +80,8 @@ resource s1 "System 1" {
 task project "Overall" {
   depends !funding_security
   depends !sasol
+  depends !legacy_roa
+  depends !learner_engagement
 }
 
 task deliveries "Milestones" {
@@ -100,32 +102,24 @@ task strategic_planning "Planning for 2019" {
   allocate ${coordinators_team}
 }
 
+
+
 # Legacy projects
+
 include "sasol_tsa.tji"  #sasol
 include "google.tji" #google
-
+include "roa.tji" #legacy_roa
 
 # New work 
-include "funding.tji" #funding_security
+include "funding.tji" #funding_security - managed by Mark
+include "learner_engagement.tji" #learner_engagement
 
-task legacy_roa "Complete RoA" {
-  task integrate_whizz "Complete integratiuon Andres's code" {
-    effort 4w
-    allocate Duncan
-  }
-  task complete_roa_billing "Complete the billing pages" {
-    depends !integrate_whizz
-    allocate Hein 
-    effort 2w
-  }
-
-}
 
 
 # Now the project has been specified completely. Stopping here would
 # result in a valid TaskJuggler file that could be processed and
-# scheduled. Here reports will be generated to visualize the
 # results.
+# scheduled. Here reports will be generated to visualize the
 
 navigator navbar {
   hidereport 0

@@ -12,6 +12,26 @@ task tempate_project "Template Project" {
             effort 2d
         }
 
+        task prototype_solutions "Develop prototype" {
+            depends !specialist_input
+            effort 1w
+        }
+
+        task test_prototypes "Test prototype" {
+            depends !prototype_solutions
+            effort 1w
+        }
+
+        task final_spec "Develop spec" {
+            depends !test_prototypes
+            effort 1w
+        }
+
+        task implement_spec "Implement spec" {
+            depends !final_spec
+            effort 4w
+        }
+
     }
 
 }

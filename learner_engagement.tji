@@ -1,0 +1,47 @@
+task learner_engagement "LE Strand" {
+    depends !strategic_planning
+
+    # Value Prop First
+
+    task learner_value_prop "Develop Learner VP" {
+        task lvp_scope "Scope LVP" {
+            allocate neels, will
+            effort 3d
+        }
+        task lvp_partner "Find LVP partner" {
+            depends !lvp_scope
+            allocate will
+            duration 2w
+        }
+        task lvp_work "LVP partner work" {
+            depends !lvp_partner
+            duration 2m
+        }
+
+    }
+
+    # Push messaging / assignments
+
+    task learner_msg "Test Push Messaging" {
+        task lmsg_scope "Scope LMSG" {
+            allocate gina
+            effort 3d
+        }
+        task lmsg_test "Execute tests over 3 weeks" {
+            depends !lmsg_scope
+            allocate gina, hannelie
+            duration 3w
+        }
+        task lmsg_spec "Spec Design" {
+            depends !lmsg_test
+            duration 2w
+        }
+        task lmsg_dev "Design implementation" {
+            depends !lmsg_test
+            duration 4w
+        }
+
+    }
+
+
+}
